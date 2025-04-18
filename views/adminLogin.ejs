@@ -132,9 +132,12 @@
                         <div class="col-lg-7 col-md-6">
                             <div class="section-header text-center">
                                 <h4>Login | Admin Panel</h4>
+                                <span style="color:red">
+                                    <%=message%>
+                                </span>
                             </div>
                             <div class="about-text">
-                                <form action="" class="form-group">
+                                <form action="/admin/adminLogin" method="post" class="form-group">
                                     <input type="email" class="form-control" placeholder="Enter your email" name="email" id="email"/><br>
                                     <input type="password" class="form-control" placeholder="Enter your password" name="password" id="password"/><br>
                                     <input class="btn btn-warning btn-block"   type="submit" value="Login"/>

@@ -17,6 +17,7 @@
   "name": "alumni-tracker-system",
   "version": "1.0.0",
   "main": "app.js",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
     ,"start": "nodemon app.js"
