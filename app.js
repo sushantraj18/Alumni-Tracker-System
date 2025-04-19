@@ -1,5 +1,6 @@
  const express = require("express")
  require("dotenv/config")
+ const cookieParser = require("cookie-parser")
  const adminRouter = require("./router/adminRouter")
  const initializeAdminData = require("./utils/adminUtils")
 const dbConnect = require("./database/db")
@@ -14,6 +15,7 @@ const dbConnect = require("./database/db")
  app.use(express.urlencoded({extended:true}))
  app.use(express.json())
  app.use(express.static("public"))
+ app.use(cookieParser())
 
  app.get("/",(req,res)=>{
     res.render("home")
