@@ -50,4 +50,15 @@ const adminHome = async(req,res)=>{
     }
 }
 
-module.exports = {adminLogin,adminHome}
+
+const adminAddEvent = async(req,res)=>{
+    try{
+        res.render("adminAddEvent",{email:req.payload.email,message : "",status : ""})
+
+    }catch(e){
+        
+        console.log("error in admin add event controller ", e)
+        res.render("adminHome",{message:message.SOMETHING_WENT_WRONG,email:req.payload.email,status : status.ERROR})
+    }
+}
+module.exports = {adminLogin,adminHome,adminAddEvent}
