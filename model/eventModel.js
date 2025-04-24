@@ -47,16 +47,13 @@ const eventSchema = mongoose.Schema({
     },
     modeOfApply : {
         type : String,
-        required : true,
     },
     startDateToApply : {
         type : String,
-        required : true,
 
     },
     lastDateToApply : {
         type : String,
-        required : true,
     },
     
     uploadEventDate : {
@@ -70,12 +67,12 @@ const eventSchema = mongoose.Schema({
     },
     status :{
         type : Boolean,
-        required : true
+        default : true
     }
 
 },{Timestamp : true})
 
 
-const eventModel = mongoose.Model("event",eventSchema)
+const eventModel = mongoose.model("event",eventSchema)
 
 module.exports = eventModel;

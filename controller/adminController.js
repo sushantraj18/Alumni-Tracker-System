@@ -1,7 +1,10 @@
+const uuid4 = require("uuid4");
 const adminModel = require("../model/adminModel")
 const {status,message}= require("../utils/statusMessage")
 const bcrypt = require("bcrypt")
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+const moment = require("moment");
+const eventModel = require("../model/eventModel");
 require("dotenv/config");
 const adminLogin = async(req,res)=>{
     try{
@@ -61,4 +64,21 @@ const adminAddEvent = async(req,res)=>{
         res.render("adminHome",{message:message.SOMETHING_WENT_WRONG,email:req.payload.email,status : status.ERROR})
     }
 }
-module.exports = {adminLogin,adminHome,adminAddEvent}
+
+const adminAddEventController = async(req,res)=>{
+    try{
+
+        req.body.eventId = uuid4();
+        req.body.uploadEventDate = moment(new Date()).format('DD-MM-YYYY');
+        req.body.uploadEventTime = moment(new Date()).format('hh:mm:ss A')
+
+        const eventDetails = await eventModel.create(req.body);
+        console.log(eventDetails)
+
+
+    }catch(e){
+        console.log("error in admin add event post method controller",e)
+        res.render("adminHome",{message:message.SOMETHING_WENT_WRONG,email:req.payload.email,status : status.ERROR})
+    }
+}
+module.exports = {adminLogin,adminHome,adminAddEvent,adminAddEventController}
