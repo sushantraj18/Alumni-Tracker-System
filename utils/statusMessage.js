@@ -2,7 +2,10 @@ const message = {
     ADMIN_CREDENTIAL_ERROR : "Error while inserting admin credential",
     ADMIN_LOGIN_ERROR : "invalid credentials",
     SOMETHING_WENT_WRONG : "Something went wrong",
-    LOGIN_ISSUE : "please try after some time | authenticate token error"
+    LOGIN_ISSUE : "please try after some time | authenticate token error",
+    EVENT_ADDED : "Event added successfully",
+    EVENT_NOT_ADDED : "Error While Adding Event",
+    EVENT_LIST_ERROR : "Error while fecthing events list",
 }
 
 const status = {

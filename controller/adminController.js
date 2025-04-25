@@ -73,12 +73,26 @@ const adminAddEventController = async(req,res)=>{
         req.body.uploadEventTime = moment(new Date()).format('hh:mm:ss A')
 
         const eventDetails = await eventModel.create(req.body);
+        res.render("adminAddEvent",{email:req.payload.email,message : message.EVENT_ADDED,status : ""})
+
         console.log(eventDetails)
 
 
     }catch(e){
         console.log("error in admin add event post method controller",e)
-        res.render("adminHome",{message:message.SOMETHING_WENT_WRONG,email:req.payload.email,status : status.ERROR})
+        res.render("adminHome",{message:message.EVENT_NOT_ADDED,email:req.payload.email,status : status.ERROR})
     }
 }
-module.exports = {adminLogin,adminHome,adminAddEvent,adminAddEventController}
+
+const adminViewEventsController = async (req,res)=>{
+    try{
+
+        const eventListData = await eventModel.find();
+        res.render("adminViewEvents",{eventList : eventListData.reverse(),message : "",status:status.SUCCESS,email:req.payload.email})
+
+    }catch(e){
+        console.log("error while fetching events list ", e )
+        res.render("adminHome",{message:message.EVENT_LIST_ERROR,email:req.payload.email,status : status.ERROR})
+    }
+}
+module.exports = {adminLogin,adminHome,adminAddEvent,adminAddEventController,adminViewEventsController}
