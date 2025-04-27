@@ -6,6 +6,8 @@ const message = {
     EVENT_ADDED : "Event added successfully",
     EVENT_NOT_ADDED : "Error While Adding Event",
     EVENT_LIST_ERROR : "Error while fecthing events list",
+    EVENT_DELETED : "Event deleted successfully",
+    EVENT_DELETED_ERROR : "Event deleted error"
 }
 
 const status = {

@@ -87,7 +87,7 @@ const adminAddEventController = async(req,res)=>{
 const adminViewEventsController = async (req,res)=>{
     try{
 
-        const eventListData = await eventModel.find();
+        const eventListData = await eventModel.find({status:true});
         res.render("adminViewEvents",{eventList : eventListData.reverse(),message : "",status:status.SUCCESS,email:req.payload.email})
 
     }catch(e){
@@ -95,4 +95,25 @@ const adminViewEventsController = async (req,res)=>{
         res.render("adminHome",{message:message.EVENT_LIST_ERROR,email:req.payload.email,status : status.ERROR})
     }
 }
-module.exports = {adminLogin,adminHome,adminAddEvent,adminAddEventController,adminViewEventsController}
+
+const adminDeleteEventController = async(req,res)=>{
+    try{
+
+        const eventId = req.body.eventId
+
+        const updateStatus = {
+            $set:{status:false}
+        }
+
+        const update = await eventModel.updateOne({eventId},updateStatus)
+        
+        const eventListData = await eventModel.find({status:true});
+        res.render("adminViewEvents",{eventList : eventListData.reverse(),message : message.EVENT_DELETED,status:status.SUCCESS,email:req.payload.email})
+
+
+    }catch(e){
+        console.log("error while delete event" , e)
+        res.render("adminHome",{message : message.EVENT_DELETED_ERROR,email:req.payload.email,status: status.ERROR})
+    }
+}
+module.exports = {adminLogin,adminHome,adminAddEvent,adminAddEventController,adminViewEventsController , adminDeleteEventController}

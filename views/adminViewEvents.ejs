@@ -159,7 +159,14 @@
                                                 <td><%=data.uploadEventDate%></td>
                                                 <td><%=data.uploadEventTime%></td>
                                                 <td> <a href="">Update</a> </td>
-                                                <td> <a href="">Delete</a> </td>
+                                                <td> 
+                                                    <form action="/admin/adminDeleteEvent" method="post">
+                                                        <input type="hidden" value="<%=data.eventId%>" name="eventId" id="eventId">
+                                                        <button>Delete</button>
+
+                                                    </form>
+
+                                                 </td>
                                             </tr>
                                             <%})%>
                                     </tbody>

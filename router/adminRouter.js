@@ -1,5 +1,5 @@
 const express = require("express");
-const {adminLogin,adminHome,adminAddEvent,adminAddEventController,adminViewEventsController} = require("../controller/adminController")
+const {adminLogin,adminHome,adminAddEvent,adminAddEventController,adminViewEventsController,adminDeleteEventController} = require("../controller/adminController")
 const {status,message}= require("../utils/statusMessage")
 const jwt = require("jsonwebtoken")
 require("dotenv/config");
@@ -59,5 +59,6 @@ adminRouter.get("/adminHome",authenticateJWT,authorizeJWT,adminHome)
 adminRouter.get("/adminAddEvent",authenticateJWT,adminAddEvent)
 adminRouter.post("/adminAddEvent",authenticateJWT,adminAddEventController)
 adminRouter.get("/adminViewEvents",authenticateJWT,adminViewEventsController)
+adminRouter.post("/adminDeleteEvent",authenticateJWT,adminDeleteEventController)
 
 module.exports = adminRouter    
