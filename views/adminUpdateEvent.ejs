@@ -100,93 +100,78 @@
 
 
         <!-- About Start -->
-        <!-- <form action="/admin/adminAddEvent" method="post" class="form-group"> -->
+        <form action="/admin/adminEventUpdate" method="post" class="form-group">
         <div class="about wow fadeInUp" data-wow-delay="0.1s">
             <div class="container">
-                <div class="row align-items-center table table-responsive">
+                <div class="row align-items-center">
                     <div class="section-header text-center">
-                        <h4>Event List <small>
+                        <h4>Admin Update Event <small>
                                 <span style="color:red">
                                     <%=message%>
                                 </span>
                             </small> </h4>
 
                     </div>
-                    <div class="col-lg-12 col-md-12">
-                           <%if(eventList.length==0){%>
-                            No Record Found
-                            <%}else{%>
-                                 <table style="font-size: 10px;">
-                                    <thead border="1" cellspaching="0" cellpadding="8">
-                                        <tr>
-                                            <th>S.No</th>
-                                            <th>EventId</th>
-                                            <th>Event Name</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
-                                            <th>Start Time</th>
-                                            <th>End Time</th>
-                                            <th>Location</th>
-                                            <th>Description</th>
-                                            <th>Type of Event</th>
-                                            <th>Criteria</th>
-                                            <th>Mode of Apply</th>
-                                            <th>Apply From</th>
-                                            <th>Apply Till</th>
-                                            <th>Upload Date</th>
-                                            <th>Upload Time</th>
-                                            <th>Update</th>
-                                            <th>Delete</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <%eventList.forEach((data,index)=>{%>
-                                            <tr>
-                                                <td><%=index+1%></td>
-                                                <td><%=data.eventId%></td>
-                                                <td><%=data.eventName%></td>
-                                                <td><%=data.eventStartDate%></td>
-                                                <td><%=data.eventEndDate%></td>
-                                                <td><%=data.eventStartTime%></td>
-                                                <td><%=data.eventEndTime%></td>
-                                                <td><%=data.location%></td>
-                                                <td><%=data.description%></td>
-                                                <td><%=data.typeOfEvent%></td>
-                                                <td><%=data.criteria%></td>
-                                                <td><%=data.modeOfApply%></td>
-                                                <td><%=data.startDateToApply%></td>
-                                                <td><%=data.lastDateToApply%></td>
-                                                <td><%=data.uploadEventDate%></td>
-                                                <td><%=data.uploadEventTime%></td>
-                                                <td> 
-                                                    <form action="/admin/adminUpdateEvent" method="post">
-                                                        <input type="hidden" value="<%=data.eventId%>" name="eventId" id="eventId">
-                                                        <button>Update</button>
+                    <div class="col-lg-6 col-md-6">
 
-                                                    </form>
+                            <input type="hidden" value="<%=eventData.eventId%>" name="eventId" id="eventId" />
 
-                                                 </td>
-                                                <td> 
-                                                    <form action="/admin/adminDeleteEvent" method="post">
-                                                        <input type="hidden" value="<%=data.eventId%>" name="eventId" id="eventId">
-                                                        <button>Delete</button>
+                            <input type="text" class="form-control"  placeholder="Enter Event Name" name="eventName"
+                                id="eventName" value="<%=eventData.eventName%>" />
 
-                                                    </form>
+                            Event Start Date
+                            <input type="date" class="form-control" name="eventStartDate" id="eventStartDate" value="<%=eventData.eventStartDate%>" />
 
-                                                 </td>
-                                            </tr>
-                                            <%})%>
-                                    </tbody>
-                                 </table>
+                            Event End Date
+                            <input type="date" class="form-control" name="eventEndDate" id="eventEndDate" value="<%=eventData.eventEndDate%>"  />
 
-                                
-                                <%}%>
+                            <input type="text" placeholder="Event Start Time" class="form-control" name="eventStartTime" id="eventstartTime" value="<%=eventData.eventStartTime%>"  />
+
+                            
+                            <input type="text" placeholder="Event End Time" class="form-control" name="eventEndTime" id="eventEndTime" value="<%=eventData.eventEndTime%>" />
+
+
+                            <input type="text" class="form-control" name="location" placeholder="Enter Location"
+                                id="location" value="<%=eventData.location%>" />
+
+                            Event Description
+                            <textarea class="form-control" name="description" id="description" > <%=eventData.description%> </textarea>
+
+
                     </div>
-                   
+                    <div class="col-lg-6 col-md-6 ">
+
+
+
+                        <input type="text" class="form-control" placeholder="Type of Event" name="typeOfEvent"
+                            id="typeOfEvent" value="<%=eventData.typeOfEvent%>" />
+
+                        <input type="text" class="form-control" placeholder="Enter Criteria" name="criteria"
+                            id="criteria" value="<%=eventData.criteria%>" />
+
+                        Mode of Apply (optional)
+                        <select class="form-control" name="modeOfApply" id="modeOfApply" >
+                            <option value="<%=eventData.modeOfApply%>"><%=eventData.modeOfApply ? eventData.modeOfApply : "Select Mode of Apply" %></option>
+                            <option value="Online">Online</option>
+                            <option value="Ofline">Ofline</option>
+                            <option value="Both">Both</option>
+                        </select>
+
+                        Start Date to Apply (optional)
+                        <input type="date" class="form-control" name="startDateToApply" id="startDateToApply" value="<%=eventData.startDateToApply%>" />
+
+                        Last Date to Apply (optional)
+                        <input type="date" class="form-control" name="lastDateToApply" id="lastDateToApply" value="<%=eventData.lastDateToApply%>" />
+
+                        <input class="btn btn-warning btn-block" type="submit" value="Update Event" />
+
+                        <input class="btn btn-danger btn-block" type="reset" value="Reset" />
+                        
+                    </div>
                 </div>
             </div>
         </div>
-    <!-- </form> -->
+    </form>
         <!-- About End -->
 
 

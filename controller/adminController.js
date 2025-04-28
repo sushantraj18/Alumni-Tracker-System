@@ -43,7 +43,7 @@ const adminLogin = async(req,res)=>{
 
 const adminHome = async(req,res)=>{
     try{
-        res.render("adminHome",{email:req.payload.email})
+        res.render("adminHome",{email:req.payload.email,message:""})
 
     }catch(e){
 
@@ -116,4 +116,46 @@ const adminDeleteEventController = async(req,res)=>{
         res.render("adminHome",{message : message.EVENT_DELETED_ERROR,email:req.payload.email,status: status.ERROR})
     }
 }
-module.exports = {adminLogin,adminHome,adminAddEvent,adminAddEventController,adminViewEventsController , adminDeleteEventController}
+
+const adminUpdateEventController = async(req,res)=>{
+
+    try{
+
+        const eventId = req.body.eventId
+
+       const eventData =  await eventModel.findOne({eventId})
+       res.render("adminUpdateEvent",{eventData:eventData,message : "",email:req.payload.email,status : status.SUCCESS})
+
+    }catch(e){
+        console.log("error while update event list ",e)
+        const eventListData = await eventModel.find({status:true});
+        res.render("adminViewEvents",{eventList : eventListData.reverse(),message : message.SOMETHING_WENT_WRONG,status:status.ERROR,email:req.payload.email})
+
+    }
+}
+
+const adminEventUpdateController = async(req,res)=>{
+    try{
+
+        const updateData = {
+            $set : req.body
+        }
+
+        const updateResult = await eventModel.updateOne({eventId:req.body.eventId},updateData)
+        console.log("update result => " , updateData )
+        const eventListData = await eventModel.find({status:true});
+        res.render("adminViewEvents",{eventList : eventListData.reverse(),message : message.EVENT_UPDATED_SUCCESS,status:status.SUCCESS,email:req.payload.email})
+
+
+        
+
+    }catch(e){
+        console.log("error while admin event update ", e)
+        const eventListData = await eventModel.find({status:true});
+        res.render("adminViewEvents",{eventList : eventListData.reverse(),message : message.SOMETHING_WENT_WRONG,status:status.ERROR,email:req.payload.email})
+
+    }
+}
+
+
+module.exports = {adminLogin,adminHome,adminAddEvent,adminAddEventController,adminViewEventsController , adminDeleteEventController,adminUpdateEventController,adminEventUpdateController}
