@@ -1,7 +1,9 @@
  const express = require("express")
  require("dotenv/config")
+ const expressFileUpload = require("express-fileupload")
  const cookieParser = require("cookie-parser")
  const adminRouter = require("./router/adminRouter")
+ const alumniRouter = require("./router/alumniRouter")
  const initializeAdminData = require("./utils/adminUtils")
 const dbConnect = require("./database/db")
  const app = express()
@@ -16,6 +18,7 @@ const dbConnect = require("./database/db")
  app.use(express.json())
  app.use(express.static("public"))
  app.use(cookieParser())
+ app.use(expressFileUpload())
 
  app.get("/",(req,res)=>{
     res.render("home")
@@ -26,6 +29,8 @@ const dbConnect = require("./database/db")
  })
 
  app.use("/admin",adminRouter)
+
+ app.use("/alumni",alumniRouter)
 
  app.listen(PORT,()=>{
     console.log(`server running at http://localhost:${PORT}`)
