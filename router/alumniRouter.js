@@ -1,5 +1,5 @@
 const express = require("express")
-const {alumniRegistrationController} = require("../controller/alumniController")
+const {alumniRegistrationController,alumniEmailVerifyController} = require("../controller/alumniController")
 const alumniRouter = express.Router()
 alumniRouter.use(express.static("public"))
 alumniRouter.get("/alumniLogin",(req,res)=>{
@@ -11,5 +11,6 @@ alumniRouter.get("/alumniRegistration",(req,res)=>{
 })
 
 alumniRouter.post("/alumniRegistration",alumniRegistrationController)
+alumniRouter.post("/alumniEmailVerify",alumniEmailVerifyController)
 
 module.exports = alumniRouter

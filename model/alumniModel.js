@@ -78,8 +78,8 @@ const alumniSchema = mongoose.Schema({
         default : true,
     }
     
-
-})
+ 
+},)
 
 const alumniModel = mongoose.model("alumni",alumniSchema)
 

@@ -8,7 +8,12 @@ const message = {
     EVENT_LIST_ERROR : "Error while fecthing events list",
     EVENT_DELETED : "Event deleted successfully",
     EVENT_DELETED_ERROR : "Event deleted error",
-    EVENT_UPDATED_SUCCESS : "Event updated successfully"
+    EVENT_UPDATED_SUCCESS : "Event updated successfully",
+    MAIL_SENDING_ERROR  : "error while sending mail from mailer",
+    ERROR_PROFILE_UPLOAD : 'error while uploading profile image',
+    WAIT_FOR_ADMIN_APPROVAL : "Wait for admin approval",
+    ALUMNI_EMAIL_VERIFY_ERROR : "Alumni email verify error",
+    ALUMNI_EMAIL_VERIFY_SUCCESS : "Alumni email verify success"
 }
 
 const status = {

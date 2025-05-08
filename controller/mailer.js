@@ -1,5 +1,7 @@
 const nodemailer = require("nodemailer")
 
+
+
 const mailer = (email,callback)=>{
     const transport = nodemailer.createTransport({
         service : 'gmail',
@@ -13,9 +15,10 @@ const mailer = (email,callback)=>{
     const mailOption = {
         from : process.env.MY_MAIL,
         to : email,
-        subject : `hello ${email} this is verification mail from alumni tracker system please click below link to verfiy <br>
+        subject : "this is alumni verification mail",
+        html : `hello ${email} this is verification mail from alumni tracker system please click below link to verfiy <br>
         
-        <form action="" method="post" 
+        <form action="http://localhost:3000/alumni/alumniEmailVerify" method="post" 
         <input type="hidden" name='email' id='email' value='${email}'>
         <button>Click here to verify</button>
         </form>
