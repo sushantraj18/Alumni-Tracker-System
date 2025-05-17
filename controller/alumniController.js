@@ -4,6 +4,8 @@ const { message, status } = require("../utils/statusMessage")
 const path = require("path")
 const { fileURLToPath } = require("url")
 const alumniModel = require('../model/alumniModel')
+const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
  
 
@@ -17,8 +19,7 @@ const alumniRegistrationController = async(req,res)=>{
         console.log(__dirname)
         const filename = req.files.profile
         const fileName = new Date().getTime()+filename.name
-        req.body.profile = filename.name
-        console.log("filename ", filename)
+        req.body.profile = fileName
         const pathName = path.join(__dirname.replace("\\controller","")+'/public/document/'+fileName)
 
 
@@ -31,6 +32,7 @@ const alumniRegistrationController = async(req,res)=>{
 
                 try{
 
+                    req.body.password = await bcrypt.hash(req.body.password,10)
                     const alumniData = await alumniModel.create(req.body)
                     console.log("alumni data => " , alumniData)
                     res.render("alumniLogin",{message : message.WAIT_FOR_ADMIN_APPROVAL,status:status.ERROR})
@@ -61,14 +63,13 @@ const alumniEmailVerifyController = async(req,res)=>{
 
     try{
 
-        const emailVerify = req.body.emailVerify
+        const email = req.body.email
 
-        const verifyEmail = {
+        const updateEmail = {
             $set:{emailVerify : "Verified"}
         }
 
-        const verfiy = await alumniModel.updateOne({emailVerify},verifyEmail)
-        console.log("email verify success ", verfiy)
+        const verfiy = await alumniModel.updateOne({email},updateEmail)
         res.render("alumniLogin",{message : message.ALUMNI_EMAIL_VERIFY_SUCCESS,status:status.SUCCESS})
 
     }catch(e){
@@ -79,4 +80,51 @@ const alumniEmailVerifyController = async(req,res)=>{
     }
 }
 
-module.exports = {alumniRegistrationController,alumniEmailVerifyController}
+const alumniLoginController =  async(req,res)=>{
+
+    try{
+
+        const {email,password}= req.body
+
+        const isAlumniValid = await alumniModel.findOne({email})
+
+        if(!isAlumniValid){
+            res.render("alumniLogin",{message : message.ALUMNI_LOGIN_ERROR,status : status.SUCCESS})
+            return
+        }
+
+        const passCheck = await bcrypt.compare(password,isAlumniValid.password)
+
+        if(!passCheck ){
+            res.render("alumniLogin",{message : message.ALUMNI_LOGIN_ERROR,status : status.SUCCESS})
+            return
+        }
+
+        if(!isAlumniValid.status){
+            res.render("alumniLogin",{message : message.ACCOUNT_DEACTIVATED,status : status.SUCCESS})
+            return
+        }
+
+        const alumniPayload = {
+            email : req.body.email,
+            username  : isAlumniValid.userName,
+            role :"alumni",
+        }
+
+        const token = jwt.sign(alumniPayload,process.env.ALUMNI_SECRET_KEY,{expiresIn:"1d"})
+
+        res.cookie("alumni_token",token,{httpOnly:true,maxAge:24*60*60*1000})
+        res.redirect("alumni/alumniHome")
+
+        
+
+
+    }catch(e){
+
+        console.log("error in alumni login controller ",e)
+         res.render("alumniLogin",{message : message.SOMETHING_WENT_WRONG,status : status.ERROR})
+
+    }
+}
+
+module.exports = {alumniRegistrationController,alumniEmailVerifyController,alumniLoginController}

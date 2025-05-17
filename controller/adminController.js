@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
 const eventModel = require("../model/eventModel");
+const alumniModel = require("../model/alumniModel");
 require("dotenv/config");
 const adminLogin = async(req,res)=>{
     try{
@@ -157,5 +158,46 @@ const adminEventUpdateController = async(req,res)=>{
     }
 }
 
+const adminAlumniListController = async (req,res,)=>{
+    try{
 
-module.exports = {adminLogin,adminHome,adminAddEvent,adminAddEventController,adminViewEventsController , adminDeleteEventController,adminUpdateEventController,adminEventUpdateController}
+        const alumniList = await alumniModel.find()
+        res.render("adminAlumniList",{alumniList : alumniList,message : "",email:req.payload.email,status: status.SUCCESS})
+
+    }catch(e){
+        console.log("error in adminAlumniListController ", e)
+        res.render("adminHome",{message : message.SOMETHING_WENT_WRONG,email:req.payload.email,status: status.ERROR})
+    }
+}
+
+
+const adminVerifyAlumniController = async(req,res)=>{
+    try{
+
+        const alumniId = req.body.alumniId
+
+        const verify = {
+            $set : {
+                adminVerify : "Verified"
+            }
+        }
+
+        const alumniVerify = await alumniModel.updateOne({alumniId},verify)
+
+        console.log("verify result  ", alumniVerify)
+        const alumniList = await alumniModel.find()
+        res.render("adminAlumniList",{alumniList : alumniList,message : message.ALUMNI_VERIFY_SUCCESS,email:req.payload.email,status: status.SUCCESS})
+
+
+
+    }catch(e){
+        
+        console.log("error in admin verify alumni controller ", e)
+        const alumniList = await alumniModel.find()
+        res.render("adminAlumniList",{alumniList : alumniList,message : message.SOMETHING_WENT_WRONG,email:req.payload.email,status: status.ERROR})
+
+    }
+}
+
+
+module.exports = {adminLogin,adminHome,adminAddEvent,adminAddEventController,adminViewEventsController , adminDeleteEventController,adminUpdateEventController,adminEventUpdateController,adminAlumniListController,adminVerifyAlumniController}

@@ -18,9 +18,9 @@ const mailer = (email,callback)=>{
         subject : "this is alumni verification mail",
         html : `hello ${email} this is verification mail from alumni tracker system please click below link to verfiy <br>
         
-        <form action="http://localhost:3000/alumni/alumniEmailVerify" method="post" 
+        <form action="http://localhost:3000/alumni/alumniEmailVerify" method="post" >
         <input type="hidden" name='email' id='email' value='${email}'>
-        <button>Click here to verify</button>
+        <button >Click here to verify</button>
         </form>
         ` 
 
