@@ -6,6 +6,7 @@ const { fileURLToPath } = require("url")
 const alumniModel = require('../model/alumniModel')
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+const { error } = require("console")
 
  
 
@@ -114,7 +115,7 @@ const alumniLoginController =  async(req,res)=>{
         const token = jwt.sign(alumniPayload,process.env.ALUMNI_SECRET_KEY,{expiresIn:"1d"})
 
         res.cookie("alumni_token",token,{httpOnly:true,maxAge:24*60*60*1000})
-        res.redirect("alumni/alumniHome")
+        res.redirect("/alumni/alumniHome")
 
         
 
@@ -127,4 +128,45 @@ const alumniLoginController =  async(req,res)=>{
     }
 }
 
-module.exports = {alumniRegistrationController,alumniEmailVerifyController,alumniLoginController}
+
+const alumniHomeController = async(req,res)=>{
+    try{
+
+     res.render("alumniHome",{email:req.payload.email,message:""})
+
+
+    }catch(e){
+        console.log("error in alumni home " , e)
+         res.render("alumniLogin",{message : message.SOMETHING_WENT_WRONG,status : status.ERROR})
+    }
+}
+
+
+const alumniJobFormController = async(req,res)=>{
+    try{
+
+     res.render("alumniJobForm",{email:req.payload.email,message:""})
+
+    }catch(e){
+        console.log("error in alumni job form controller ",e)
+         res.render("alumniHome",{email:req.payload.email,message:message.SOMETHING_WENT_WRONG,status:status.ERROR})
+
+
+    }
+}
+
+
+const alumniJobPostingController = async(req,res)=>{
+    try{
+
+        console.log("result  ", req.body)
+
+    }catch(e){
+        console.log("error in alumni job posting controller ", e)
+        res.render("alumniJobForm",{email:req.payload.email,message:message.SOMETHING_WENT_WRONG,status:status.ERROR})
+
+
+    }
+}
+
+module.exports = {alumniRegistrationController,alumniEmailVerifyController,alumniLoginController,alumniHomeController,alumniJobFormController,alumniJobPostingController}
