@@ -16,7 +16,8 @@ const message = {
     ALUMNI_EMAIL_VERIFY_SUCCESS : "Alumni email verify success | wait for admin verification after 3 hour you can login",
     ALUMNI_VERIFY_SUCCESS : "Alumni Verified Successfully",
     ALUMNI_LOGIN_ERROR : "Invalid Creadential",
-    ACCOUNT_DEACTIVATED : 'Account deactivated please contect your admin to activate'
+    ACCOUNT_DEACTIVATED : 'Account deactivated please contect your admin to activate',
+    JOB_ADDED_SUCCESS : "Job Posting Successfully"
 }
 
 const status = {

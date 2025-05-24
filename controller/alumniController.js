@@ -7,6 +7,7 @@ const alumniModel = require('../model/alumniModel')
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const { error } = require("console")
+const jobModel = require("../model/jobModel")
 
  
 
@@ -159,7 +160,15 @@ const alumniJobFormController = async(req,res)=>{
 const alumniJobPostingController = async(req,res)=>{
     try{
 
-        console.log("result  ", req.body)
+        req.body.jobId = uuid4()
+        console.log(req.body)
+        const alumniObj = await alumniModel.findOne({email : req.payload.email},{alumniId : 1})
+        req.body.alumniId = alumniObj.alumniId
+        console.log("result  ", req.body.alumniId)
+        const jobPostingData = await jobModel.create(req.body)
+        console.log("result ", jobPostingData);
+         res.render("alumniJobForm",{email:req.payload.email,message:message.JOB_ADDED_SUCCESS,status:status.SUCCESS})
+
 
     }catch(e){
         console.log("error in alumni job posting controller ", e)
